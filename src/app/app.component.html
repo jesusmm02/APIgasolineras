@@ -1,0 +1,92 @@
+<div class="container">
+  <h1 class="text-center text-4xl text-yellow-400 mt-3"> 
+    <i class="fa-solid fa-gas-pump" style="color: #f22121;"></i> IberGasoil
+  </h1>
+  
+  <form (ngSubmit)="submitForm($event)" class="ml-5">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="form-group mb-3">
+          <label for="provincia" class="mr-5">Provincia:</label>
+          <select class="form-control rounded border-2 border-black" id="provincia" name="provincia" (change)="onProvinciaChange($event)">
+            <option value="">Selecciona una provincia</option>
+            <option *ngFor="let provincia of provincias" [value]="provincia.id">{{ provincia.nombre }}</option>
+          </select>
+        </div>
+        
+        <div class="form-group mb-3">
+          <label for="municipio" class="mr-5 mb-3">Municipio:</label>
+          <select class="form-control rounded border-2 border-black" id="municipio" name="municipio">
+            <option value="">Selecciona un municipio</option>
+            <option *ngFor="let municipio of municipios" [value]="municipio.id">{{ municipio.nombre }}</option>
+          </select>
+        </div>
+        
+        <div class="form-group mb-3">
+          <label for="tipoCarburante" class="mr-5 mb-3">Tipo de carburante:</label>
+          <select class="form-control rounded border-2 border-black" id="tipoCarburante" name="tipoCarburante">
+            <option value="">Seleccione un producto</option>
+            <option *ngFor="let producto of productos" [value]="producto.id">{{ producto.nombre }}</option>
+          </select>
+        </div>
+        
+        <div class="form-group mb-3">
+          <label for="eessMasEconomicas" class="mr-2">Ordenar por precio <strong>(de menor a mayor)</strong> </label>
+          <input type="checkbox" id="eessMasEconomicas" name="eessMasEconomicas">
+        </div>
+        
+        <div class="form-group mb-3" >
+          <button type="submit" class="rounded p-2 bg-blue-700 text-white">Buscar</button>
+        </div>
+      </div>
+
+      <div class="col-md-9" id="lista">
+        <table class="table" *ngIf="estaciones.length > 0 && tipoCarburante == '' ">
+          <thead>
+            <tr class="text-orange-500">
+              <th>Rótulo</th>
+              <th>Dirección</th>
+              <th>Localidad</th>
+              <th>Precio Gasoleo A</th>
+              <th>Precio Gasoleo B</th>
+              <th>Precio Gasolina 95 E5</th>
+              <th>Precio Gasolina 98 E5</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let estacion of estaciones">
+              <td>{{ estacion['Rótulo'] }}</td>
+              <td>{{ estacion['Dirección'] }}</td>
+              <td>{{ estacion['Localidad'] }}</td>
+              <td>{{ estacion['Precio Gasoleo A'] }}</td>
+              <td>{{ estacion['Precio Gasoleo B'] }}</td>
+              <td>{{ estacion['Precio Gasolina 95 E5'] }}</td>
+              <td>{{ estacion['Precio Gasolina 98 E5'] }}</td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <!-- Tabla cuando se aplica el filtro del tipo de carburante -->
+        <table class="table" *ngIf="estaciones.length > 0 && tipoCarburante != '' ">
+          <thead>
+            <tr class="text-orange-600">
+              <th>Rótulo</th>
+              <th>Dirección</th>
+              <th>Localidad</th>
+              <th>Precio producto</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let estacion of estaciones">
+              <td>{{ estacion['Rótulo'] }}</td>
+              <td>{{ estacion['Dirección'] }}</td>
+              <td>{{ estacion['Localidad'] }}</td>
+              <td>{{ estacion['PrecioProducto'] }}</td>
+            </tr>
+          </tbody>
+        </table>
+          <p *ngIf="estaciones.length === 0" class="mt-10" style="color: red;"> <i class="fa-solid fa-circle-exclamation"></i> No hay estaciones disponibles.</p>
+      </div>
+    </div>
+  </form>
+</div>
